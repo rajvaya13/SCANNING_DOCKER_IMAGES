@@ -1,0 +1,19 @@
+name: Do anything after the release of the first workflow
+
+on:
+  workflow_run:
+    workflows: ["CI release"]
+    types:
+      - completed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1
+        uses: actions/checkout@v2
+ 
+
+      - name: Step 2
+        run: echo "This is step 2."  
