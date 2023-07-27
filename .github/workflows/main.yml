@@ -12,12 +12,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        #abc
-      - name: Listing dkr
+      - name: Getting the value for infra
         run: |
-          pwd
-          ls
-          ls -la
-
-      - name: Run Workflow A Steps
-        uses: ./.github/actions
+          TAG=`cat ./txt1.txt`
+          cat txt1.txt
+          echo "::set-output name=tagss::$TAG"
+          
+      - name: calling workflow
+        uses: ./github/workflows/workflowA
+        with:
+          tag: ::set-output name=tagss::$TAG
+         
