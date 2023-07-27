@@ -1,28 +1,17 @@
 name: Main Workflow
 
 on:
-  workflow_dispatch:
-   # inputs:
-     # workflow_to_trigger:
-        #description: 'Select the workflow to trigger'
-        #required: true
-        #default: |
-        #  -'workflowA'
-         # -'workflowA'
+  push:
+    branches:
+      - main
 
 jobs:
-  trigger_workflow:
+  my_job:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Trigger Workflow A
-        #if: ${{ github.event.inputs.workflow_to_trigger == 'workflowA' }}
+      - name: Run Workflow A Steps
         uses: ./.github/workflows/workflowA.yml
-        #triggers
-
-      - name: Trigger Workflow B
-        #if: ${{ github.event.inputs.workflow_to_trigger == 'workflowB' }}
-        uses: ./.github/workflows/workflowB.yml
