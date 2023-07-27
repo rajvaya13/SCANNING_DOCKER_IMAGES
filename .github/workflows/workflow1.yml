@@ -1,20 +1,19 @@
-name: Do anything after the release of the first workflow
+name: The Main Workflow
 
 on:
   workflow_run:
-    workflows: ["CI release"]
+    workflows: ["Secondary Workflow"]
     types:
       - completed
 
 jobs:
-  notify:
+  jobMain:
     runs-on: ubuntu-latest
 
     steps:
       - name: Step 1
         uses: actions/checkout@v2
  
-
       - name: Step 2
         run: echo "This is step 2."  
         #ad
