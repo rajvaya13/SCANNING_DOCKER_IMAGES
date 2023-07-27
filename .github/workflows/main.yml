@@ -2,13 +2,13 @@ name: Main Workflow
 
 on:
   workflow_dispatch:
-    inputs:
-      workflow_to_trigger:
-        description: 'Select the workflow to trigger'
-        required: true
-        default: |
-          -'workflowA'
-          -'workflowA'
+   # inputs:
+     # workflow_to_trigger:
+        #description: 'Select the workflow to trigger'
+        #required: true
+        #default: |
+        #  -'workflowA'
+         # -'workflowA'
 
 jobs:
   trigger_workflow:
