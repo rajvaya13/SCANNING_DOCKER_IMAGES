@@ -1,5 +1,4 @@
-name: CI release
-
+name: Secondary Workflow
 on: [push]
 
 jobs:
@@ -7,9 +6,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Step 1 of Workflow A
+      - name: Step 1 of secondary Workflow
         uses: actions/checkout@v2
  
-
-      - name: Step 2 of Workflow A
+      - name: Step 2 of Workflow 2nd
         run: echo "This is step 2 of Workflow A."    
