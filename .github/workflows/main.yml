@@ -6,7 +6,9 @@ on:
       workflow_to_trigger:
         description: 'Select the workflow to trigger'
         required: true
-        default: 'workflowA'
+        default: |
+          -'workflowA'
+          -'workflowA'
 
 jobs:
   trigger_workflow:
