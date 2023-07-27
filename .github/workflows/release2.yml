@@ -1,0 +1,13 @@
+name: third Workflow
+on: [push]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 of third Workflow
+        uses: actions/checkout@v2
+ 
+      - name: Step 2 of Workflow 3rd
+        run: echo "This is step 3 of Workflow A."   
