@@ -1,0 +1,12 @@
+name: Workflow B
+
+on:
+  workflow_call:  # Change this from "push" to "workflow_call"
+
+jobs:
+  jobB:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Message from Workflow B
+        run: echo "This is Workflow B."
