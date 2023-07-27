@@ -20,4 +20,4 @@ jobs:
           ls -la
 
       - name: Run Workflow A Steps
-        uses: .github/actions
+        uses: ./home/runner/work/Test/Test/.github/actions
