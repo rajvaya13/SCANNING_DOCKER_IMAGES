@@ -17,11 +17,6 @@ jobs:
           TAG=`cat ./txt1.txt`
           cat txt1.txt
           echo "::set-output name=tagss::$TAG"
-          
-      - name: calling workflow
-        uses: ./github/workflows/workflowA
-        env:
-          TAGG: hello 
 
       - name: Set variable and create artifact
         run: |
@@ -36,3 +31,10 @@ jobs:
             my_variable.env
             another_variable.env
             yet_another_variable.env
+
+      - name: calling workflow
+        uses: ./github/workflows/workflowA
+        env:
+          TAGG: hello 
+
+
