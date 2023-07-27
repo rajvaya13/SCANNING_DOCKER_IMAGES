@@ -1,0 +1,8 @@
+name: 'My Sub Workflow Action'
+description: 'A custom action that represents the logic of the sub workflow'
+runs:
+  using: 'composite'
+  steps:
+    - run: echo "Running sub workflow step 1"
+    - run: echo "Running sub workflow step 2"
+    # Add more steps as needed
