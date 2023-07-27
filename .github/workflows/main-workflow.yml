@@ -13,6 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Call the sub-workflow action
+      # Call the sub-workflow actions
       - name: Run Sub Workflow
         uses: ./.github/actions/my-sub-workflow-action
