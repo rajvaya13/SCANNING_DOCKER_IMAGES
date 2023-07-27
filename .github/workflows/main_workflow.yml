@@ -3,7 +3,7 @@ name: Main Workflow
 on:
   push:
     branches:
-      - mains
+      - main
 
 jobs:
   main_job:
@@ -15,7 +15,8 @@ jobs:
 
       # Other steps specific to your main workflow
 
+      - name: Set input for Sub Workflow
+        run: echo "SOME_INPUT=Hello, from Main Workflow!" >> $GITHUB_ENV
+
       - name: Trigger Sub Workflow
         uses: ./.github/workflows/sub_workflow.yml
-        with:
-          some_input: "Hello, from Main Workflow!"
