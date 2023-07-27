@@ -14,4 +14,4 @@ jobs:
       # Other steps specific to your sub workflow
 
       - name: Print Input
-        run: echo "Received input: $SOME_INPUT"
+        run: echo "Received input: ${{ inputs.some_input }}"
