@@ -15,4 +15,4 @@ jobs:
         #abc
 
       - name: Run Workflow A Steps
-        uses: ./.github/workflows/workflowA.yml
+        uses: ./.github/actions
