@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Other steps specific to your main workflow
+      # Other steps specific to your main workflows
 
       - name: Set input for Sub Workflow
         run: echo "SOME_INPUT=Hello, from Main Workflow!" >> $GITHUB_ENV
