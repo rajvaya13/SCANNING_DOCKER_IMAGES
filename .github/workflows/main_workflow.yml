@@ -1,0 +1,21 @@
+name: Main Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_workflow:
+        description: 'Target workflow to trigger'
+        required: true
+        default: 'other_workflow.yml'
+
+jobs:
+  trigger_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Trigger Other Workflow
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: ${{ github.event.inputs.target_workflow }}
