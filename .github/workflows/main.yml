@@ -19,7 +19,7 @@ jobs:
       - name: Trigger Workflow A
         if: ${{ github.event.inputs.workflow_to_trigger == 'workflowA' }}
         uses: ./.github/workflows/workflowA.yml
-        #trigger
+        #triggers
 
       - name: Trigger Workflow B
         if: ${{ github.event.inputs.workflow_to_trigger == 'workflowB' }}
