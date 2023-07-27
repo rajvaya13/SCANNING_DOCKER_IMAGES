@@ -1,5 +1,8 @@
 name: third Workflow
-on: [push]
+on:
+  push:
+    branches:
+      - mains
 
 jobs:
   release:
