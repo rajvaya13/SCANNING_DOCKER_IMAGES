@@ -1,7 +1,7 @@
 name: Workflow A
 
 on:
-  workflow_call:  # Change this from "push" to "workflow_call"
+  workflow_call:
 
 jobs:
   jobA:
