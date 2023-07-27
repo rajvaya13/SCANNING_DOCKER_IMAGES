@@ -3,7 +3,7 @@ name: Workflow A
 on:
   push:
     branches:
-      - mains
+      - main
 
 jobs:
   jobA:
