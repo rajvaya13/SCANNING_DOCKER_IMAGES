@@ -2,7 +2,6 @@ name: 'My Sub Workflow Action'
 description: 'A custom action that represents the logic of the sub workflow'
 runs:
   using: 'composite'
-  shell: bash  # Specify the shell to use, e.g., 'bash', 'pwsh', or 'sh'
   steps:
     - run: echo "Running sub workflow step 1"
     - run: echo "Running sub workflow step 2"
