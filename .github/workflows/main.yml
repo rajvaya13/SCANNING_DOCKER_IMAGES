@@ -5,7 +5,7 @@ on:
     inputs:
       workflow_to_trigger:
         description: 'Select the workflow to trigger'
-        required: true
+        required: false
         default: |
           -'workflowA'
           -'workflowA'
