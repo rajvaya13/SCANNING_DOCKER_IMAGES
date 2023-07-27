@@ -17,3 +17,8 @@ jobs:
 
       - name: Step 2 of Workflow A
         run: echo "This is step 2 of Workflow A.= "${TAGG}
+        
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifact        
