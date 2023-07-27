@@ -1,0 +1,17 @@
+name: Sub Workflow
+
+on:
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  sub_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Other steps specific to your sub workflow
+
+      - name: Print Input
+        run: echo "Received input: $SOME_INPUT"
