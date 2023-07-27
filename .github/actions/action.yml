@@ -1,10 +1,7 @@
-jobs:
-  my_job:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run Workflow A Steps
-        uses: ./.github/workflows/workflowA.yml
+name: "My composite action"
+description: "Checks out the repository and does something"
+runs:
+  using: "composite"
+  steps: 
+  - run: |
+      echo "Doing something"
