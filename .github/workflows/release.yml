@@ -1,0 +1,15 @@
+name: CI release
+
+on: [push]
+
+jobs:
+  jobA:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 of Workflow A
+        uses: actions/checkout@v2
+ 
+
+      - name: Step 2 of Workflow A
+        run: echo "This is step 2 of Workflow A."    
