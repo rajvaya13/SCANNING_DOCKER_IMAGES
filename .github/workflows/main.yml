@@ -20,6 +20,6 @@ jobs:
           
       - name: calling workflow
         uses: ./github/workflows/workflowA
-        with:
-          tag: ::set-output name=tagss::$TAG
+        env:
+          TAGG: hello 
          
