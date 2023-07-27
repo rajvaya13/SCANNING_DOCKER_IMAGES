@@ -17,6 +17,7 @@ jobs:
         run: |
           pwd
           ls
+          ls -la
 
       - name: Run Workflow A Steps
         uses: ./.github/actions
