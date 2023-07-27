@@ -1,0 +1,21 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - mains
+
+jobs:
+  main_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Other steps specific to your main workflow
+
+      - name: Trigger Sub Workflow
+        uses: ./.github/workflows/sub_workflow.yml
+        with:
+          some_input: "Hello, from Main Workflow!"
