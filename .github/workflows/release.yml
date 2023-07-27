@@ -2,7 +2,7 @@ name: Secondary Workflow
 on:
   push:
     branches:
-      - main
+      - mains
 
 jobs:
   release:
