@@ -26,11 +26,15 @@ jobs:
       - name: Show latest tag
         run: echo "Latest tag for ${{ matrix.item }} is ${{ steps.get_latest_tag.outputs.latest_tag }}"   
         
-      - name: Pull Image
+  #    - name: Pull Image
+   #     run: |-
+    #      if [ "${{ matrix.image }}" = "synthetics-minion-runner" ]; then
+     #       curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
+
+
+      - name: Docker Pull
         run: |-
-          if [ "${{ matrix.image }}" = "synthetics-minion-runner" ]; then
-            curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
-        
+          docker pull newrelic/infrastructure-k8s:2.13.10
         
         
         
