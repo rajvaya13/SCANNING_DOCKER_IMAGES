@@ -15,6 +15,12 @@ jobs:
     
       - name: Folders
         run: ls -la
+      - name: Check
+        run: |
+          tag=`cat ./synthetics-minion-runner/last_image.txt`
+          cat last_image.txt
+        
+        
       - name: Step 1
         #run: echo "Performing action with item ${{ matrix.item }}"
         #run: curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
