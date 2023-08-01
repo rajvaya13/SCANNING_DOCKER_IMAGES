@@ -1,6 +1,5 @@
 name: Matrix Workflow
-on: 
-  workflow_dispatch:
+on: [push]
 
 jobs:
   my_job:
@@ -10,4 +9,4 @@ jobs:
         item: [item1, item2, item3] # Add your list of items here
     steps:
       - name: Step 1
-        run: echo "Performing action with item: ${{ matrix.item }}"
+        run: echo "Performing action with item ${{ matrix.item }}"
