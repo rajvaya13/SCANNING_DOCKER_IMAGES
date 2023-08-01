@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        item: [nri-kubernetes, infrastructure-k8s] # Add your list of items here
+        item: [nri-kubernetes, infrastructure-k8s] # Add your lists of items here
     steps:
       - name: Checkout code
         uses: actions/checkout@v2    
