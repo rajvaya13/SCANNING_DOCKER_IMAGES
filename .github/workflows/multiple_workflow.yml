@@ -15,20 +15,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2    
 
-      - name: Check 2
-        run: ls -la
-        
-      - name: Check
-        run: |
-          tag=`cat ./synthetics-minion-runner/last_image.txt`
-          echo "$tag"
-        
       - name: Step 1
         #run: echo "Performing action with item ${{ matrix.item }}"
         #run: curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
         run: |
           latest_tag=`cat ./${{ matrix.item }}/last_image.txt`
-          echo "$latest_tag"
+          echo "::set-output name=latest_tag::$latest_tag"
           
       - name: Show latest tag
         run: echo "Latest tag for ${{ matrix.image }} is ${{ steps.get_latest_tag.outputs.latest_tag }}"        
