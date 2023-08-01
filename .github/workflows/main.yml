@@ -3,13 +3,15 @@ name: Main Workflow
 on:
   push:
     branches:
-      - mainss
+      - main
 
 jobs:
   my_job:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check
+        run: ls -la
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Getting the value for infra
