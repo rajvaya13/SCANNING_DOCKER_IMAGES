@@ -7,8 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        item: [item1, item2, item3] # Add your list of items here
+        item: [synthetics-minion-runner, infrastructure-k8s] # Add your list of items here
     steps:
       - name: Step 1
         #run: echo "Performing action with item ${{ matrix.item }}"
-        run: curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
+        #run: curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
+        run: |
+          latest_tag= cat ${{ matrix.item }}/last_image.txt
+          echo "::set-output name=latest_tag::$latest_tag"
+          
+      - name: Show latest tag
+        run: echo "Latest tag for ${{ matrix.image }} is ${{ steps.get_latest_tag.outputs.latest_tag }}"        
