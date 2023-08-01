@@ -39,7 +39,6 @@ jobs:
         
       - name: Docker Pull
         run: |-
-         # for image in ${{ matrix.item }}; do
             #tag1=curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tag/?limit=1" | jq -r  ".tags[0].name"
             tag1="1.1.2"
             echo "::set-output name=syn_tag::$tag1"  #syn_tag is latest tag
