@@ -42,7 +42,7 @@ jobs:
         
       - name: Docker Pull
         run: |-
-           tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq-win64.exe  ".results[0].name")
+           tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq -r ".results[0].name")
            echo ${tag1}
             #tag1="1.1.2"
             #echo "::set-output name=syn_tag::$tag1"  #syn_tag is latest tag
