@@ -49,7 +49,7 @@ jobs:
               #echo ${{ steps.get_latest_tag.outputs.syn_tag }} > ./${{ matrix.item }}/last_image.txt
               #git pull 
               #git add -f ./${{ matrix.item }}/last_image.txt
-            #fi
+            fi
 
 
         
