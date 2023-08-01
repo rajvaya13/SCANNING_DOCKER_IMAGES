@@ -12,14 +12,16 @@ jobs:
       matrix:
         item: [synthetics-minion-runner, infrastructure-k8s] # Add your list of items here
     steps:
-    
-      - name: Folders
+      - name: Checkout code
+        uses: actions/checkout@v2    
+
+      - name: Check 2
         run: ls -la
+        
       - name: Check
         run: |
           tag=`cat ./synthetics-minion-runner/last_image.txt`
           cat last_image.txt
-        
         
       - name: Step 1
         #run: echo "Performing action with item ${{ matrix.item }}"
