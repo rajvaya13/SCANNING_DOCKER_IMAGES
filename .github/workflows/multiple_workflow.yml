@@ -20,8 +20,8 @@ jobs:
         
       - name: Check
         run: |
-          tag=`cat ./synthetics-minion-runner/last_image.txt`
-          cat last_image.txt
+          tag=`cat ./txt2.txt`
+          cat txt2.txt
         
       - name: Step 1
         #run: echo "Performing action with item ${{ matrix.item }}"
