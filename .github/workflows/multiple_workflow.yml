@@ -14,7 +14,10 @@ jobs:
         item: [nri-kubernetes, infrastructure-k8s] # Add your lists of items here
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2    
+        uses: actions/checkout@v2  
+        
+      - name: CHECK1
+        run: curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/nri-kubernetes/tags/?limit=1" | jq -r ".results[0].name"
 
       - name: Get the tag
         id: get_latest_tag
