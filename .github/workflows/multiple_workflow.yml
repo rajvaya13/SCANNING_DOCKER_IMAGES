@@ -9,11 +9,13 @@ jobs:
       matrix:
         item: [synthetics-minion-runner, infrastructure-k8s] # Add your list of items here
     steps:
+    
+      - name: Folders
+        run: ls -la
       - name: Step 1
         #run: echo "Performing action with item ${{ matrix.item }}"
         #run: curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
         run: |
-          ls -la
           latest_tag= cat ${{ matrix.item }}/last_image.txt
           echo "::set-output name=latest_tag::$latest_tag"
           
