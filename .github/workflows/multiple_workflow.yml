@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Step 1
         #run: echo "Performing action with item ${{ matrix.item }}"
-        run: curl -s "https://quay.io/api/v1/repository/dkr-quay/newrelic/synthetics-minion/tag/?limit=1" | jq -r ".tags[0].name"
+        run: curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
