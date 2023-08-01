@@ -1,0 +1,13 @@
+name: Matrix Workflow
+on: 
+  workflow_dispatch:
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        item: [item1, item2, item3] # Add your list of items here
+    steps:
+      - name: Step 1
+        run: echo "Performing action with item: ${{ matrix.item }}"
