@@ -15,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2    
 
-      - name: Step 1
+      - name: Get the tag
         id: get_latest_tag
         #run: echo "Performing action with item ${{ matrix.item }}"
         #run: curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
@@ -24,4 +24,13 @@ jobs:
           echo "::set-output name=latest_tag::$latest_tag"
           
       - name: Show latest tag
-        run: echo "Latest tag for ${{ matrix.item }} is ${{ steps.get_latest_tag.outputs.latest_tag }}"        
+        run: echo "Latest tag for ${{ matrix.item }} is ${{ steps.get_latest_tag.outputs.latest_tag }}"   
+        
+      - name: Pull Image
+        run: |-
+          if [ "${{ matrix.image }}" = "synthetics-minion-runner" ]; then
+            curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
+        
+        
+        
+        
