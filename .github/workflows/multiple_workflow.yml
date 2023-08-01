@@ -37,18 +37,24 @@ jobs:
        # run: |-
         #  docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.latest_tag }}
         
-      - name: Docker Pull
-        run: |-
-            tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tag/?limit=1" | jq -r  ".tags[0].name")
+      #- name: Docker Pull
+        #run: |-
+           # tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tag/?limit=1" | jq -r  ".tags[0].name")
             #tag1="1.1.2"
             #echo "::set-output name=syn_tag::$tag1"  #syn_tag is latest tag
-            if [ "${{ steps.get_latest_tag.outputs.latest_tag }}" != "{{ steps.get_latest_tag.outputs.syn_tag }}" ]; then
-              docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.syn_tag }}
+       #     if [ "${{ steps.get_latest_tag.outputs.latest_tag }}" != "{{ steps.get_latest_tag.outputs.syn_tag }}" ]; then
+        #      docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.syn_tag }}
               #echo ${{ steps.get_latest_tag.outputs.syn_tag }} > ./${{ matrix.item }}/last_image.txt
               #git pull 
               #git add -f ./${{ matrix.item }}/last_image.txt
             #fi
 
+      - name: Docker Pull
+        run: |
+          curl_command="curl -s \"https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tag/?limit=1\""
+          tags_response=$(eval $curl_command)
+          tag_name=$(echo "$tags_response" | jq -r ".tags[0].name")
+          echo "Tag for ${{ matrix.item }}: $tag_name"
 
 
         
