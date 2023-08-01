@@ -16,7 +16,7 @@ jobs:
         #run: echo "Performing action with item ${{ matrix.item }}"
         #run: curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
         run: |
-          latest_tag= cat ./${{ matrix.item }}/last_image.txt
+          latest_tag= `cat ./${{ matrix.item }}/last_image.txt`
           echo "::set-output name=latest_tag::$latest_tag"
           
       - name: Show latest tag
