@@ -44,10 +44,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_SECRET }}      
         run: |-
-           git config user.name "GitHub Actions Bot"
-           git config user.email "<>"
-           /usr/bin/git config --local gc.auto 0
-           /usr/bin/git config --local http.https://github.com/.extraheader
            tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq -r ".results[0].name")
            echo ${tag1}
            if [ "${{ steps.get_latest_tag.outputs.latest_tag }}" != "${tag1}" ]; then
