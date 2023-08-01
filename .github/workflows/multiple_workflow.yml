@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        item: [synthetics-minion-runner, infrastructure-k8s] # Add your list of items here
+        item: [nri-kubernetes, infrastructure-k8s] # Add your list of items here
     steps:
       - name: Checkout code
         uses: actions/checkout@v2    
@@ -34,7 +34,7 @@ jobs:
 
       - name: Docker Pull
         run: |-
-          docker pull newrelic/infrastructure-k8s:2.13.10
+          docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.latest_tag }}
         
         
         
