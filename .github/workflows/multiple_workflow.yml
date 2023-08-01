@@ -1,12 +1,14 @@
 name: Matrix Workflow
-on: [push]
+on: 
+  workflow_dispatch:
 
 jobs:
-  my_job:
+  run_workflows:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         item: [item1, item2, item3] # Add your list of items here
     steps:
       - name: Step 1
-        run: echo "Performing action with item ${{ matrix.item }}"
+        #run: echo "Performing action with item ${{ matrix.item }}"
+        run: curl -s "https://quay.io/api/v1/repository/dkr-quay/newrelic/synthetics-minion/tag/?limit=1" | jq -r ".tags[0].name"
