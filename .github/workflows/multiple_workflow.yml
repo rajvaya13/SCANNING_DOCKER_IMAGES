@@ -3,7 +3,8 @@ on:
   #workflow_dispatch:
   push:
     branches:
-      - main
+      - mains
+      
 
 jobs:
   run_workflows:
@@ -23,7 +24,7 @@ jobs:
           latest_tag=`cat ./${{ matrix.item }}/last_image.txt`
           echo "::set-output name=latest_tag::$latest_tag"
           
-      - name: Show latest tag
+      - name: Show latest tag #for lopp with matrix.item -> 
         run: echo "Latest tag for ${{ matrix.item }} is ${{ steps.get_latest_tag.outputs.latest_tag }}"   
         
   #    - name: Pull Image
@@ -32,9 +33,22 @@ jobs:
      #       curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
 
 
+      #- name: Docker Pull
+       # run: |-
+        #  docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.latest_tag }}
+        
       - name: Docker Pull
         run: |-
-          docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.latest_tag }}
-        
-        
+         # for image in ${{ matrix.item }}; do
+            tag1=curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tag/?limit=1" | jq -r  ".tags[0].name"
+            echo "::set-output name=syn_tag::$tag1"  #syn_tag is latest tag
+            if [ "${{ steps.get_latest_tag.outputs.latest_tag }}" != "{{ steps.get_latest_tag.outputs.syn_tag }}" ]; then
+              docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.syn_tag }}
+              #echo ${{ steps.get_latest_tag.outputs.syn_tag }} > ./${{ matrix.item }}/last_image.txt
+              #git pull 
+              #git add -f ./${{ matrix.item }}/last_image.txt
+            fi
+
+
+
         
