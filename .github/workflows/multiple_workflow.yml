@@ -46,9 +46,11 @@ jobs:
            echo ${tag1}
            if [ "${{ steps.get_latest_tag.outputs.latest_tag }}" != "${tag1}" ]; then
               docker pull newrelic/${{ matrix.item }}:${tag1}
-              #echo ${{ steps.get_latest_tag.outputs.syn_tag }} > ./${{ matrix.item }}/last_image.txt
-              #git pull 
-              #git add -f ./${{ matrix.item }}/last_image.txt
+              echo ${tag1} > ./${{ matrix.item }}/last_image.txt
+              git pull 
+              git add -f ./${{ matrix.item }}/last_image.txt
+              git commit -m "Updating the latest image"
+              git push -u origin main
             fi
 
 
