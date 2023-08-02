@@ -43,7 +43,7 @@ jobs:
         #  docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.latest_tag }}
         
       - name: Docker Pull
-        if: ${{ contains(github.event.paths, './${{ matrix.item }}/last_image.txt') }}
+        if: ${{ contains(github.event.paths, ./${{ matrix.item }}/last_image.txt) }}
         run: |-
            #tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq -r ".results[0].name")
            #echo ${tag1}
