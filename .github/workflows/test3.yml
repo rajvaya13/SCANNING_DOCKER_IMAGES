@@ -1,0 +1,57 @@
+name: Matrix Workflow
+on: 
+  push:
+    branches:
+      - mains
+permissions:
+  contents: write
+
+jobs:
+  run_workflows:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        item: [nri-kubernetes, infrastructure-k8s] # Add your lists of items here
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check if there's a change in tag for ${{ matrix.item }}
+        id: check_tag_change
+        run: |
+          tag_file="./${{ matrix.item }}/last_image.txt"
+          if [ -f "$tag_file" ]; then
+            latest_tag=$(cat $tag_file)
+            new_tag=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq -r ".results[0].name")
+            echo "Latest tag for ${{ matrix.item }}: $latest_tag"
+            echo "New tag for ${{ matrix.item }}: $new_tag"
+            if [ "$latest_tag" != "$new_tag" ]; then
+              echo "Tag has changed. Running the job for ${{ matrix.item }}"
+              echo "::set-output name=tag_changed::true"
+              echo "::set-output name=new_tag::$new_tag"
+            else
+              echo "Tag has not changed. Skipping the job for ${{ matrix.item }}"
+              echo "::set-output name=tag_changed::false"
+            fi
+          else
+            echo "Tag file not found. Running the job for ${{ matrix.item }}"
+            echo "::set-output name=tag_changed::true"
+            new_tag=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq -r ".results[0].name")
+            echo "::set-output name=new_tag::$new_tag"
+          fi
+
+      - name: Show latest tag for ${{ matrix.item }}
+        run: echo "Latest tag for ${{ matrix.item }} is ${{ steps.check_tag_change.outputs.new_tag }}"
+
+      - name: Docker Pull
+        if: steps.check_tag_change.outputs.tag_changed == 'true'
+        run: |
+          new_tag=${{ steps.check_tag_change.outputs.new_tag }}
+          docker pull newrelic/${{ matrix.item }}:${new_tag}
+          echo $new_tag > ./${{ matrix.item }}/last_image.txt
+          git pull
+          git config user.name "rajvaya13"
+          git config user.email "raj.vaya2017@gmail.com"
+          git add -f ./${{ matrix.item }}/last_image.txt
+          git commit -m "Updating the latest image for ${{ matrix.item }}"
+          git push -u origin main
