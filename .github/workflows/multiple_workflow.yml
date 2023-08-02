@@ -3,7 +3,7 @@ on:
   #workflow_dispatch:
   push:
     branches:
-      - main
+      - mainss
       
 
 jobs:
@@ -49,8 +49,6 @@ jobs:
            if [ "${{ steps.get_latest_tag.outputs.latest_tag }}" != "${tag1}" ]; then
               docker pull newrelic/${{ matrix.item }}:${tag1}
               echo ${tag1} > ./${{ matrix.item }}/last_image.txt
-              git config --global user.email "raj.vaya2017@gmail.com"
-              git config --global user.name "rajvaya13"
               git pull 
               git add -f ./${{ matrix.item }}/last_image.txt
               git commit -m "Updating the latest image"
