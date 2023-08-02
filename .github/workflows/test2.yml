@@ -45,8 +45,12 @@ jobs:
       - name: Determine if specific folder has changed
         id: check_changes
         run: |
-          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep './${{ matrix.item }}/last_image.txt')
-          echo "::set-output name=changed::$(if [ -n "$changed_files" ]; then echo "true"; else echo "false"; fi)"
+          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '${{ matrix.item }}/last_image.txt')
+          if [ -n "$changed_files" ]; then
+            echo "::set-output name=changed::true"
+          else
+            echo "::set-output name=changed::false"
+          fi
         
       - name: Docker Pull
         if: steps.check_changes.outputs.changed == 'true'
