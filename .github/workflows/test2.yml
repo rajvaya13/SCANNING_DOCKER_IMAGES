@@ -42,8 +42,14 @@ jobs:
        # run: |-
         #  docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.latest_tag }}
         
+      - name: Determine if specific folder has changed
+        id: check_changes
+        run: |
+          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep './${{ matrix.item }}/last_image.txt')
+          echo "::set-output name=changed::$(if [ -n "$changed_files" ]; then echo "true"; else echo "false"; fi)"
+        
       - name: Docker Pull
-        if: ${{ contains(github.event.paths, ./${{ matrix.item }}/last_image.txt) }}
+        if: steps.check_changes.outputs.changed == 'true'
         run: |-
            #tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq -r ".results[0].name")
            #echo ${tag1}
