@@ -3,7 +3,7 @@ on:
   #workflow_dispatch:
   push:
     branches:
-      - mains
+      - main
 permissions:
   contents: write      
       
@@ -17,43 +17,26 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2  
-        
-      - name: CHECK1
-        run: curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/nri-kubernetes/tags/?limit=1" | jq -r ".results[0].name"
 
       - name: Get the tag
         id: get_latest_tag
-        #run: echo "Performing action with item ${{ matrix.item }}"
-        #run: curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
         run: |
-          latest_tag=`cat ./${{ matrix.item }}/last_image.txt`
-          echo "::set-output name=latest_tag::$latest_tag"
-          
-      - name: Show latest tag #for lopp with matrix.item -> 
-        run: echo "Latest tag for ${{ matrix.item }} is ${{ steps.get_latest_tag.outputs.latest_tag }}"   
-        
-  #    - name: Pull Image
-   #     run: |-
-    #      if [ "${{ matrix.image }}" = "synthetics-minion-runner" ]; then
-     #       curl -s "https://quay.io/api/v1/repository/newrelic/synthetics-minion-runner/tag/?limit=1" | jq -r  ".tags[0].name"
-
-
-      #- name: Docker Pull
-       # run: |-
-        #  docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.latest_tag }}
+          last_tag=`cat ./${{ matrix.item }}/last_image.txt`
+          echo "::set-output name=last_tag::$last_tag"
+          released_tag=`cat ./${{ matrix.item }}/released.txt`
+          echo "::set-output name=released_tag::$released_tag"
         
       - name: Docker Pull     
         run: |-
-           tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq -r ".results[0].name")
-           echo ${tag1}
-           if [ "${{ steps.get_latest_tag.outputs.latest_tag }}" != "${tag1}" ]; then
-              docker pull newrelic/${{ matrix.item }}:${tag1}
-              echo ${tag1} > ./${{ matrix.item }}/last_image.txt
+           #tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq -r ".results[0].name")
+
+           if [ "${{ steps.get_latest_tag.outputs.last_tag }}" != "${{ steps.get_latest_tag.outputs.released_tag }}" ]; then
+              docker pull newrelic/${{ matrix.item }}:${{ steps.get_latest_tag.outputs.released_tag }}
+              echo ${{ steps.get_latest_tag.outputs.released_tag }} > ./${{ matrix.item }}/last_image.txt
               git pull
               git config user.name "rajvaya13"
               git config user.email "raj.vaya2017@gmail.com"
               git add -f ./${{ matrix.item }}/last_image.txt
               git commit -m "Updating the latest image"
-              #git pull
               git push -u origin main
            fi
