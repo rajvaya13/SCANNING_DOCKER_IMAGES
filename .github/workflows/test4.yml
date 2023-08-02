@@ -31,14 +31,18 @@ jobs:
       - name: Fetch Updated Folder
         id: fetch_folder
         run: |
+          # Set the path to search for changes
+          search_path="path/to/"
+
           # Get the list of changed files between the previous commit and the current commit
-          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          changed_files=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}")
 
           # Use grep to find the folder name from the list of changed files
-          folder_name=$(echo "$changed_files" | grep -oP '^path/to/[^/]+' | head -1)
+          folder_name=$(echo "$changed_files" | grep -oE "^$search_path[^/]+" | head -1)
 
           echo "Updated folder: $folder_name"
           echo "::set-output name=folder::$folder_name"
+
 
         
       - name: Docker Pull     
