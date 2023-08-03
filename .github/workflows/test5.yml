@@ -21,16 +21,10 @@ jobs:
       - name: Get changed folder name
         run: |
           CHANGED_FILES=$(git diff --name-only HEAD^..HEAD)
-          FOLDER_NAME=$(echo "$CHANGED_FILES" | awk -F/ '{print $1}' | uniq)
-          echo "CHANGED_FOLDER=$FOLDER_NAME" >> $GITHUB_ENV
+          folder=$(echo "$CHANGED_FILES" | awk -F/ '{print $1}' | uniq)
+          echo "::set-output name=folder_name::$folder"
 
       - name: Display changed folder name
         run: |
-          echo "The changed folder is $CHANGED_FOLDER"
+          echo "The changed folder is $folder_name"
 
-
-      - name: Get the tag
-        id: get_latest_tag
-        run: |
-          last_tag=`cat ./$CHANGED_FOLDER/last_image.txt`
-          echo "::set-output name=last_tag::$last_tag"
