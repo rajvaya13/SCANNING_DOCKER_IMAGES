@@ -17,8 +17,8 @@ jobs:
         item: [nri-kubernetes, infrastructure-k8s] # Add your lists of itemss heres
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+        #with:
+          #fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
 
 
