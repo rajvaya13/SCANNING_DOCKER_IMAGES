@@ -4,7 +4,7 @@ on:
   #workflow_dispatch:
   push:
     branches:
-      - mains
+      - mainsss
 permissions:
   contents: write      
       
@@ -16,8 +16,20 @@ jobs:
       matrix:
         item: [nri-kubernetes, infrastructure-k8s] # Add your lists of itemss heres
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2  
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+
+      - name: Get changed folder name
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD^..HEAD)
+          FOLDER_NAME=$(echo "$CHANGED_FILES" | awk -F/ '{print $1}' | uniq)
+          echo "CHANGED_FOLDER=$FOLDER_NAME" >> $GITHUB_ENV
+
+      - name: Display changed folder name
+        run: |
+          echo "The changed folder is $CHANGED_FOLDER"
+
 
       - name: Get the tag
         id: get_latest_tag
@@ -26,28 +38,6 @@ jobs:
           echo "::set-output name=last_tag::$last_tag"
           released_tag=`cat ./${{ matrix.item }}/released.txt`
           echo "::set-output name=released_tag::$released_tag"
-
-      - name: Fetch changed folder
-        run: |
-          CHANGED_FOLDER=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | awk -F/ '{print $1}' | uniq)
-          echo "The changed folder is: $CHANGED_FOLDER"
-          
-
-      - name: Fetch Updated Folder
-        id: fetch_folder
-        run: |
-          # Set the path to search for changes
-          search_path="path/to/"
-
-          # Get the list of changed files between the previous commit and the current commit
-          changed_files=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}")
-
-          # Use grep to find the folder name from the list of changed files
-          folder_name=$(echo "$changed_files" | grep -oE "^$search_path[^/]+" | head -1)
-
-          echo "Updated folder: $folder_name"
-          echo "::set-output name=folder::$folder_name"
-
 
         
       - name: Docker Pull     
