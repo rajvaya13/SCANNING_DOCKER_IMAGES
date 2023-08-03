@@ -29,3 +29,5 @@ jobs:
       - name: Display changed folder name
         run: |
           echo "The changed folder is $CHANGED_FOLDER"
+          echo "${CHANGED_FOLDER}"
+          
