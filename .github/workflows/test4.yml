@@ -29,7 +29,7 @@ jobs:
 
       - name: Fetch changed folder
         run: |
-          CHANGED_FOLDER=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | awk -F/ '{print $1}' | uniq)
+          CHANGED_FOLDER=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | awk -F/ '{print $1}' | uniq)
           echo "The changed folder is: $CHANGED_FOLDER"
           
 
