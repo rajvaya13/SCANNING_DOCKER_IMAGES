@@ -1,10 +1,10 @@
 #Workflow for folder structure
 name: MERGE Workflow
 on: 
-  workflow_dispatch:
-  #push:
-   # branches:
-    #  - mains
+  #workflow_dispatch:
+  push:
+    branches:
+      - mains
 permissions:
   contents: write      
       
