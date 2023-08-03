@@ -1,15 +1,18 @@
-name: CI
-
-on:
+#Workflow for folder structure
+name: Matrix Workflow
+on: 
+  #workflow_dispatch:
   push:
     branches:
-      - mainss
-
+      - main
+permissions:
+  contents: write      
+      
 
 jobs:
-  changed_files:
-    runs-on: ubuntu-latest  # windows-latest || macos-latest
-    name: Test changed-files
+  run_workflows:
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -17,15 +20,17 @@ jobs:
 
       - name: Get changed folder name
         run: |
-          # Get the list of changed files between the current and previous commit
           CHANGED_FILES=$(git diff --name-only HEAD^..HEAD)
-
-          # Use awk to extract the folder name of the first changed file (assumes the first file is inside a folder)
           FOLDER_NAME=$(echo "$CHANGED_FILES" | awk -F/ '{print $1}' | uniq)
-
-          # Set the output variable for later use
           echo "CHANGED_FOLDER=$FOLDER_NAME" >> $GITHUB_ENV
 
       - name: Display changed folder name
         run: |
           echo "The changed folder is $CHANGED_FOLDER"
+
+
+      - name: Get the tag
+        id: get_latest_tag
+        run: |
+          last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
+          echo "::set-output name=last_tag::$last_tag"
