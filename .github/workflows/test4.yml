@@ -30,6 +30,8 @@ jobs:
         run: |
           echo "The changed folder is $CHANGED_FOLDER"
           echo "${CHANGED_FOLDER}"
+          last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
+          echo "::set-output name=last_tag::$last_tag"          
 
       - name: Get the tag
         id: get_latest_tag
