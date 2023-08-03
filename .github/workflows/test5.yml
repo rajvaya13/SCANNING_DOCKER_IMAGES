@@ -11,6 +11,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Install jq
+        run: sudo apt-get -y install jq
+
       - name: Fetch last commit hash
         id: fetch-last-commit-hash
         run: |
