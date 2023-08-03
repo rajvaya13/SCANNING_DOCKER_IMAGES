@@ -1,0 +1,34 @@
+name: Check Changed Folder
+on:
+  push:
+    branches:
+      - main # Change this to your branch name if not using the main branch
+
+jobs:
+  check_folder:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Fetch last commit information
+      id: last_commit
+      run: echo ::set-output name=sha::$(git rev-parse HEAD~1)
+
+    - name: Get changed files
+      id: changed_files
+      run: |
+        CHANGED_FILES=$(git diff --name-only ${{ steps.last_commit.outputs.sha }} ${{ github.sha }})
+        echo "::set-output name=changed_files::$CHANGED_FILES"
+
+    - name: Find changed folder
+      id: changed_folder
+      run: |
+        CHANGED_FILES=(${{ steps.changed_files.outputs.changed_files }})
+        CHANGED_FOLDER=$(dirname "${CHANGED_FILES[0]}")
+        echo "::set-output name=changed_folder::$CHANGED_FOLDER"
+
+    - name: Print changed folder
+      run: |
+        echo "Changed folder: ${{ steps.changed_folder.outputs.changed_folder }}"
