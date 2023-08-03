@@ -3,7 +3,7 @@ name: Folder Change Trigger
 on:
   push:
     branches:
-      - main  # Replace with your desired branch name if different
+      - mainss  # Replace with your desired branch name if different
 
 jobs:
   detect_folder_change:
