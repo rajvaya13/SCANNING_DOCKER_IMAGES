@@ -11,32 +11,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Install jq
-        run: sudo apt-get -y install jq
-
-      - name: Fetch last commit hash
-        id: fetch-last-commit-hash
+      - name: Check for Txt File Changes
         run: |
-          last_commit_hash=$(git log -1 --pretty=format:%H)
-          echo "::set-output name=last_commit_hash::$last_commit_hash"
-
-      - name: Fetch changed files
-        id: fetch-changed-files
-        run: |
-          last_commit=${{ steps.fetch-last-commit-hash.outputs.last_commit_hash }}
-          changed_files=$(git diff --name-only $last_commit HEAD)
-          echo "::set-output name=changed_files::$changed_files"
-
-      - name: Extract folder name
-        id: extract-folder-name
-        run: |
-          IFS=$'\n' read -ra files <<< "${{ steps.fetch-changed-files.outputs.changed_files }}"
-          for file in "${files[@]}"; do
-            folder_name=$(dirname "$file")
-            echo "::set-output name=folder_name::$folder_name"
-            break
+          for folder in $(git diff --name-only HEAD^..HEAD | grep -oE '^[^/]+/' | sort -u); do
+            echo "Folder changed: $folder"
           done
-
-      - name: Display folder name
-        run: |
-          echo "Changed folder name: ${{ steps.extract-folder-name.outputs.folder_name }}"
+        
