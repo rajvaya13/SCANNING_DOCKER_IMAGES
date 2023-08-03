@@ -1,10 +1,10 @@
 #Workflow for folder structure
-name: Matrix Workflow
-on: 
-  #workflow_dispatch:
+name: Folder Change Trigger
+
+on:
   push:
     branches:
-      - mainss
+      - main  # Replace with your desired branch name if different
 permissions:
   contents: write      
       
@@ -12,37 +12,29 @@ permissions:
 jobs:
   run_workflows:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        item: [nri-kubernetes, infrastructure-k8s] # Add your lists of itemss heres
+
     steps:
-      - uses: actions/checkout@v2
-        #with:
-          #fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+      - name: Checkout code
+        uses: actions/checkout@v2  
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.        
+          
 
+      - name: Get changed folder name
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD^..HEAD)
+          FOLDER_NAME=$(echo "$CHANGED_FILES" | awk -F/ '{print $1}' | uniq)
+          echo "CHANGED_FOLDER=$FOLDER_NAME" >> $GITHUB_ENV
 
-
+      - name: Display changed folder name
+        run: |
+          echo "The changed folder is $CHANGED_FOLDER"
+          echo "${CHANGED_FOLDER}"
 
       - name: Get the tag
         id: get_latest_tag
         run: |
-          last_tag=`cat ./${{ matrix.item }}/last_image.txt`
+          last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
           echo "::set-output name=last_tag::$last_tag"
-          released_tag=`cat ./${{ matrix.item }}/released.txt`
+          released_tag=`cat ./${CHANGED_FOLDER}/released.txt`
           echo "::set-output name=released_tag::$released_tag"
-
-        
-      - name: Docker Pull     
-        run: |-
-           #tag1=$(curl -s "https://registry.hub.docker.com/v2/repositories/newrelic/${{ matrix.item }}/tags/?limit=1" | jq -r ".results[0].name")
-
-           if [ "${{ steps.get_latest_tag.outputs.last_tag }}" != "${{ steps.get_latest_tag.outputs.released_tag }}" ]; then
-              docker pull newrelic/${{ steps.fetch_folder.outputs.folder }}:${{ steps.get_latest_tag.outputs.released_tag }}
-              echo ${{ steps.get_latest_tag.outputs.released_tag }} > ./${{ steps.fetch_folder.outputs.folder }}/last_image.txt
-              git pull
-              git config user.name "rajvaya13"
-              git config user.email "raj.vaya2017@gmail.com"
-              git add -f ./$${{ steps.fetch_folder.outputs.folder }}/last_image.txt
-              git commit -m "Updating the latest image"
-              git push -u origin main
-           fi
