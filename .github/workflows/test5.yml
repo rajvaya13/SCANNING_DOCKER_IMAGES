@@ -32,5 +32,5 @@ jobs:
       - name: Get the tag
         id: get_latest_tag
         run: |
-          last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
+          last_tag=`cat ./$CHANGED_FOLDER/last_image.txt`
           echo "::set-output name=last_tag::$last_tag"
