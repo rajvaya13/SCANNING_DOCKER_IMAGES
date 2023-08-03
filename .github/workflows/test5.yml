@@ -1,43 +1,33 @@
-name: Check Changed Folder
+name: Fetch Folder Name
 on:
   push:
     branches:
-      - mainss # Change this to your branch name if not using the main branch
+      - main  # Change this to your main branch name if different
 
 jobs:
-  check_folder:
+  fetch-folder-name:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v2
 
-    - name: Get base branch
-      id: base_branch
-      run: echo "::set-output name=branch::${{ github.base_ref }}"
+      - name: Fetch last commit's changed files
+        id: fetch-changed-files
+        run: |
+          last_commit=$(git rev-parse HEAD^1)
+          changed_files=$(git diff --name-only $last_commit HEAD)
+          echo "::set-output name=changed_files::$changed_files"
 
-    - name: Fetch last commit information
-      if: ${{ github.event_name == 'push' && github.event.before != '0000000000000000000000000000000000000000' }}
-      id: last_commit
-      run: echo "::set-output name=sha::${{ github.event.before }}"
+      - name: Extract folder name
+        id: extract-folder-name
+        run: |
+          IFS=$'\n' read -ra files <<< "${{ steps.fetch-changed-files.outputs.changed_files }}"
+          for file in "${files[@]}"; do
+            folder_name=$(dirname "$file")
+            echo "::set-output name=folder_name::$folder_name"
+            break
+          done
 
-    - name: Get changed files
-      id: changed_files
-      run: |
-        if [ -z "${{ steps.last_commit.outputs.sha }}" ]; then
-          CHANGED_FILES=$(git diff --name-only "${{ steps.base_branch.outputs.branch }}")
-        else
-          CHANGED_FILES=$(git diff --name-only "${{ steps.last_commit.outputs.sha }}" ${{ github.sha }})
-        fi
-        echo "::set-output name=changed_files::$CHANGED_FILES"
-
-    - name: Find changed folder
-      id: changed_folder
-      run: |
-        CHANGED_FILES=(${{ steps.changed_files.outputs.changed_files }})
-        CHANGED_FOLDER=$(dirname "${CHANGED_FILES[0]}")
-        echo "::set-output name=changed_folder::$CHANGED_FOLDER"
-
-    - name: Print changed folder
-      run: |
-        echo "Changed folder: ${{ steps.changed_folder.outputs.changed_folder }}"
+      - name: Display folder name
+        run: |
+          echo "Changed folder name: ${{ steps.extract-folder-name.outputs.folder_name }}"
