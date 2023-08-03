@@ -20,15 +20,7 @@ jobs:
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
-      - name: Get changed folder name
-        run: |
-          CHANGED_FILES=$(git diff --name-only HEAD^..HEAD)
-          FOLDER_NAME=$(echo "$CHANGED_FILES" | awk -F/ '{print $1}' | uniq)
-          echo "CHANGED_FOLDER=$FOLDER_NAME" >> $GITHUB_ENV
 
-      - name: Display changed folder name
-        run: |
-          echo "The changed folder is $CHANGED_FOLDER"
 
 
       - name: Get the tag
