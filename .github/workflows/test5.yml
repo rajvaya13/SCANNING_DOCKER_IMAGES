@@ -11,10 +11,16 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Fetch last commit's changed files
+      - name: Fetch last commit hash
+        id: fetch-last-commit-hash
+        run: |
+          last_commit_hash=$(git log -1 --pretty=format:%H)
+          echo "::set-output name=last_commit_hash::$last_commit_hash"
+
+      - name: Fetch changed files
         id: fetch-changed-files
         run: |
-          last_commit=$(git rev-parse HEAD^1)
+          last_commit=${{ steps.fetch-last-commit-hash.outputs.last_commit_hash }}
           changed_files=$(git diff --name-only $last_commit HEAD)
           echo "::set-output name=changed_files::$changed_files"
 
