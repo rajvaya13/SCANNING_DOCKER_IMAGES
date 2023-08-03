@@ -2,7 +2,7 @@ name: Check Changed Folder
 on:
   push:
     branches:
-      - main # Change this to your branch name if not using the main branch
+      - mainss # Change this to your branch name if not using the main branch
 
 jobs:
   check_folder:
