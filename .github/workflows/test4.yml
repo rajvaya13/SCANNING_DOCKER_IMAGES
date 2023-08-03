@@ -26,6 +26,11 @@ jobs:
           echo "::set-output name=last_tag::$last_tag"
           released_tag=`cat ./${{ matrix.item }}/released.txt`
           echo "::set-output name=released_tag::$released_tag"
+
+      - name: Fetch changed folder
+        run: |
+          CHANGED_FOLDER=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | awk -F/ '{print $1}' | uniq)
+          echo "The changed folder is: $CHANGED_FOLDER"
           
 
       - name: Fetch Updated Folder
