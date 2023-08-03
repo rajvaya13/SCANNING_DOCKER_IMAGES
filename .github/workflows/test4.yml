@@ -39,6 +39,6 @@ jobs:
           last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
           echo "::set-output name=last_tag::$last_tag"
           
-          
+          echo "${last_tag}"
           released_tag=`cat ./${CHANGED_FOLDER}/released.txt`
           echo "::set-output name=released_tag::$released_tag"
