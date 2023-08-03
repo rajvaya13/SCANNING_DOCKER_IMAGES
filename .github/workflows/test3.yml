@@ -1,5 +1,5 @@
 #Workflow for folder structure
-name: Matrix Workflow
+name: MERGE Workflow
 on: 
   workflow_dispatch:
   #push:
