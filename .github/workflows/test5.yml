@@ -15,15 +15,17 @@ jobs:
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
-      # Example 1
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v37
-
-      # NOTE: `since_last_remote_commit: trues` is implied by default and falls back to the previous local commit.
-
-      - name: List all changed files
+      - name: Get changed folder name
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
+          # Get the list of changed files between the current and previous commit
+          CHANGED_FILES=$(git diff --name-only HEAD^..HEAD)
+
+          # Use awk to extract the folder name of the first changed file (assumes the first file is inside a folder)
+          FOLDER_NAME=$(echo "$CHANGED_FILES" | awk -F/ '{print $1}' | uniq)
+
+          # Set the output variable for later use
+          echo "CHANGED_FOLDER=$FOLDER_NAME" >> $GITHUB_ENV
+
+      - name: Display changed folder name
+        run: |
+          echo "The changed folder is $CHANGED_FOLDER"
