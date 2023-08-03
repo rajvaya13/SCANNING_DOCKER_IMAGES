@@ -13,7 +13,8 @@ jobs:
 
       - name: Check for Txt File Changes
         run: |
-          for folder in $(git diff --name-only HEAD^..HEAD | grep -oE '^[^/]+/' | sort -u); do
+          base_ref=$(git rev-list --max-parents=0 HEAD)
+          for folder in $(git diff --name-only $base_ref..HEAD | grep -oE '^[^/]+/' | sort -u); do
             echo "Folder changed: $folder"
           done
         
