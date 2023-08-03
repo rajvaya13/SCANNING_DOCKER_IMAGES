@@ -30,14 +30,14 @@ jobs:
         run: |
           echo "The changed folder is $CHANGED_FOLDER"
           echo "${CHANGED_FOLDER}"
-          last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
-          echo "last_tag::$last_tag" >> $GITHUB_ENV
-          echo "last_tag"
+          
 
       - name: Get the tag
         id: get_latest_tag
         run: |
           last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
           echo "::set-output name=last_tag::$last_tag"
+          
+          
           released_tag=`cat ./${CHANGED_FOLDER}/released.txt`
           echo "::set-output name=released_tag::$released_tag"
