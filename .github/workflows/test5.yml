@@ -12,14 +12,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Get base branch
+      id: base_branch
+      run: echo "::set-output name=branch::${{ github.base_ref }}"
+
     - name: Fetch last commit information
+      if: ${{ github.event_name == 'push' && github.event.before != '0000000000000000000000000000000000000000' }}
       id: last_commit
-      run: echo ::set-output name=sha::$(git rev-parse HEAD~1)
+      run: echo "::set-output name=sha::${{ github.event.before }}"
 
     - name: Get changed files
       id: changed_files
       run: |
-        CHANGED_FILES=$(git diff --name-only ${{ steps.last_commit.outputs.sha }} ${{ github.sha }})
+        if [ -z "${{ steps.last_commit.outputs.sha }}" ]; then
+          CHANGED_FILES=$(git diff --name-only "${{ steps.base_branch.outputs.branch }}")
+        else
+          CHANGED_FILES=$(git diff --name-only "${{ steps.last_commit.outputs.sha }}" ${{ github.sha }})
+        fi
         echo "::set-output name=changed_files::$CHANGED_FILES"
 
     - name: Find changed folder
