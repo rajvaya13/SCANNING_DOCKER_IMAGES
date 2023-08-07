@@ -35,7 +35,7 @@ jobs:
       - name: Get the tag
         id: get_latest_tag
         run: |-
-          if ["${CHANGED_FOLDER}" = "infrastructure-k8s"] || ["${CHANGED_FOLDER}" = "nri-kubernetes"] ; then
+          if ["${CHANGED_FOLDER}" = "infrastructure-k8s"] ; then
             echo "${CHANGED_FOLDER}"
             last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
             echo "::set-output name=last_tag::$last_tag"
