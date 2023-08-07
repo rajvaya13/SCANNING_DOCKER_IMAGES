@@ -29,7 +29,9 @@ jobs:
       - name: Display changed folder name
         run: |
           echo "The changed folder is $CHANGED_FOLDER"
-          echo "${CHANGED_FOLDER}"
+          if ["${CHANGED_FOLDER}" = "infrastructure-k8s"] ; then
+            echo "${CHANGED_FOLDER}"
+          fi
           
 
       - name: Get the tag
