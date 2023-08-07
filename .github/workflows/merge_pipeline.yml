@@ -34,24 +34,28 @@ jobs:
 
       - name: Get the tag
         id: get_latest_tag
-        run: |
-          echo "${CHANGED_FOLDER}"
-          last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
-          echo "::set-output name=last_tag::$last_tag"
-          echo "${last_tag}"
-          released_tag=`cat ./${CHANGED_FOLDER}/released.txt`
-          echo "::set-output name=released_tag::$released_tag"
+        run: |-
+          if ["${CHANGED_FOLDER}" = "infrastructure-k8s"]; then
+            echo "${CHANGED_FOLDER}"
+            last_tag=`cat ./${CHANGED_FOLDER}/last_image.txt`
+            echo "::set-output name=last_tag::$last_tag"
+            echo "${last_tag}"
+            released_tag=`cat ./${CHANGED_FOLDER}/released.txt`
+            echo "::set-output name=released_tag::$released_tag"
+          fi
           
 
       - name: Docker Pull     
         run: |-
-           if [ "${{ steps.get_latest_tag.outputs.last_tag }}" != "${{ steps.get_latest_tag.outputs.released_tag }}" ]; then
-              docker pull newrelic/${CHANGED_FOLDER}:${{ steps.get_latest_tag.outputs.released_tag }}
-              echo ${{ steps.get_latest_tag.outputs.released_tag }} > ./${CHANGED_FOLDER}/last_image.txt
-              git pull
-              git config user.name "rajvaya13"
-              git config user.email "raj.vaya2017@gmail.com"
-              git add -f ./${CHANGED_FOLDER}/last_image.txt
-              git commit -m "Updating the latest image"
-              git push -u origin main
-           fi
+           if ["${CHANGED_FOLDER}" = "infrastructure-k8s"]; then
+             if [ "${{ steps.get_latest_tag.outputs.last_tag }}" != "${{ steps.get_latest_tag.outputs.released_tag }}" ]; then
+                docker pull newrelic/${CHANGED_FOLDER}:${{ steps.get_latest_tag.outputs.released_tag }}
+                echo ${{ steps.get_latest_tag.outputs.released_tag }} > ./${CHANGED_FOLDER}/last_image.txt
+                git pull
+                git config user.name "rajvaya13"
+                git config user.email "raj.vaya2017@gmail.com"
+                git add -f ./${CHANGED_FOLDER}/last_image.txt
+                git commit -m "Updating the latest image"
+                git push -u origin main
+             fi
+           fi 
