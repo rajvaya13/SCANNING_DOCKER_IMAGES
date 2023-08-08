@@ -47,7 +47,7 @@ jobs:
 
       - name: Docker Pull     
         run: |-
-           if [ "${CHANGED_FOLDER}" = "infrastructure-k8s" ] || [ "${CHANGED_FOLDER}" = "nri-kubernetes" ] ; then
+           #if [ "${CHANGED_FOLDER}" = "infrastructure-k8s" ] || [ "${CHANGED_FOLDER}" = "nri-kubernetes" ] ; then
              echo "${CHANGED_FOLDER}"
              if [ "${{ steps.get_latest_tag.outputs.last_tag }}" != "${{ steps.get_latest_tag.outputs.released_tag }}" ]; then
                 docker pull newrelic/${CHANGED_FOLDER}:${{ steps.get_latest_tag.outputs.released_tag }}
@@ -59,4 +59,4 @@ jobs:
                 git commit -m "Updating the latest image"
                 git push -u origin main
              fi
-           fi 
+           #fi 
