@@ -58,5 +58,7 @@ jobs:
                 git add -f ./${CHANGED_FOLDER}/last_image.txt
                 git commit -m "Updating the latest image"
                 git push -u origin main
+                #This is the push command so that the changes of tag are pushed in the repo!
+              
              fi
            #fi 
