@@ -1,0 +1,61 @@
+name: Create Confluence Page
+
+on:
+  push:
+    branches:
+      - confluence
+
+jobs:
+  create-page:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Create Confluence Page
+        env:
+          CONFLUENCE_URL: ${{ secrets.CONFLUENCE_URL }}
+          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+          CONFLUENCE_PASSWORD: ${{ secrets.CONFLUENCE_PASSWORD }}
+        run: |
+          parent_page_id=589825
+          page_title="Reports"
+          page_content="<p>This is a new page</p>" # Replace with your desired page content
+
+          # Create the Confluence page
+          page_id=$(curl -u $CONFLUENCE_USERNAME:$CONFLUENCE_PASSWORD -X POST -H 'Content-Type: application/json' -d '{
+            "type": "page",
+            "title": "'"$page_title"'",
+            "ancestors": [{"id": '$parent_page_id'}],
+            "space": {"key": "TST"},
+            "body": {
+              "storage": {
+                "value": "'"$page_content"'",
+                "representation": "storage"
+              }
+            }
+          }' $CONFLUENCE_URL/rest/api/content/ | jq -r '.id')
+
+          echo "Created Confluence page with ID: $page_id"
+
+      - name: Commit Page ID to GitHub
+        run: echo "::set-output name=page_id::$page_id"
+
+      - name: Create a Page ID Output
+        id: page_id
+        run: echo "::set-output name=page_id::$page_id"
+
+      - name: Upload Page ID as an Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: confluence-page-id
+          path: ${{ steps.page_id.outputs.page_id }}
