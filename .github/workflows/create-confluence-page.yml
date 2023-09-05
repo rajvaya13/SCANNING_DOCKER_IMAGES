@@ -29,14 +29,14 @@ jobs:
         run: |
           parent_page_id="589825"
           page_title="Reports"
-          page_content="<p>This is a new page</p>" # Replace with your desired page content
+          page_content="<p>This is a new page</p>"
 
           # Create the Confluence page
           page_id=$(curl -u $CONFLUENCE_USERNAME:$CONFLUENCE_PASSWORD -X POST -H 'Content-Type: application/json' -d '{
             "type": "page",
             "title": "'"$page_title"'",
             "ancestors": [{"id": '$parent_page_id'}],
-            "space": {"key": "TST"},
+            "space": {"key": "SD"},
             "body": {
               "storage": {
                 "value": "'"$page_content"'",
