@@ -10,37 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check
-        run: ls -la
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Check 2
-        run: ls -la
-
-      - name: Getting the value for infra
-        run: |
-          TAG=`cat ./txt1.txt`
-          cat txt1.txt
-          echo "::set-output name=tagss::$TAG"
-
-      - name: Set variable and create artifact
-        run: |
-          echo "MY_VARIABLE=20" > my_variable.env
-          echo "ANOTHER_VARIABLE=Hello" > another_variable.env
-          echo "YET_ANOTHER_VARIABLE=123" > yet_another_variable.env
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: my-artifact
-          path: |
-            my_variable.env
-            another_variable.env
-            yet_another_variable.env
-
-      - name: calling workflow
-        uses: ./github/workflows/workflowA
-        env:
-          TAGG: hello 
+        run: curl -s https://github.com/newrelic/nri-flex/tags | grep -o 'tag/[^"]*' | sed 's/tag\///' | head -n 1
 
 
