@@ -14,4 +14,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Image Pull
-        run: docker pull lianyuxue1020/kube-scheduler:v1.22.3
+        run: |
+          curl -X POST https://chatgpt-api.shn.hk/v1/ \
+            -H 'Content-Type: application/json' \
+            -d '{
+            "model": "gpt-3.5-turbo",
+            "messages": [{"role": "user", "content": "Hello, how are you?"}
+          }'
+      
