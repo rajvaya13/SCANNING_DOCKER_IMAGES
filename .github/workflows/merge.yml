@@ -15,5 +15,12 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Print
-        run: echo "Hello"
+      - name: Print Workflow
+        run: echo "Merge Task"
+      - name: Get the change number
+        run: |-
+          c_no = `cat ./change_folder/change_request.txt`
+          echo "CHANGE_REQUEST=$c_no" >> $GITHUB_ENV
+
+      - name: Display Change No.
+        run: echo"$CHANGE_REQUEST"
