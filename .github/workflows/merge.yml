@@ -23,4 +23,4 @@ jobs:
           echo "CR_NO=$c_no" >> $GITHUB_ENV
 
       - name: Display Change No.
-        run: echo"The change number is $CR_NO"      
+        run: echo "The change number is $CR_NO"      
