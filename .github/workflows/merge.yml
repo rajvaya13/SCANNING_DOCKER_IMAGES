@@ -23,4 +23,14 @@ jobs:
           echo "CR_NO=$c_no" >> $GITHUB_ENV
 
       - name: Display Change No.
-        run: echo "The change number is $CR_NO"      
+        run: echo "The change number is $CR_NO"
+
+      - name: Read and Process Data
+        run: |-
+          while IFS= read -r line
+          do
+            echo "Line: $line"
+            IFS=":" read -r key value <<< "$line"
+            echo "Key: $key"
+            echo "Value: $value"
+          done < data.txt        
