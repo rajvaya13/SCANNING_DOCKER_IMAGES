@@ -19,8 +19,8 @@ jobs:
         run: echo "Merge Task"
       - name: Get the change number
         run: |-
-          c_no = `cat ./change_folder/change_request.txt`
-          echo "CHANGE_REQUEST=$c_no" >> $GITHUB_ENV
+          c_no = $(cat ./change_folder/change_request.txt)
+          echo "CR_NO=$c_no" >> $GITHUB_ENV
 
       - name: Display Change No.
-        run: echo"$CHANGE_REQUEST"
+        run: echo"$CR_NO"
