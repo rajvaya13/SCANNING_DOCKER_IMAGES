@@ -34,3 +34,11 @@ jobs:
             echo "Key: $key"
             echo "Value: $value"
           done < data.txt        
+
+      - name: Read and Process Data
+        run: |-
+          while IFS= read -r line
+          do
+            image_names=$(echo "$line" | grep -oE 'dkr-io/[^ ]+:[0-9]+\.[0-9]+\.[0-9]+')
+            echo "Image Names: $image_names"
+          done < data.txt
