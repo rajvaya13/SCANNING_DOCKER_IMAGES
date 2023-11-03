@@ -4,21 +4,16 @@ on:
   push:
     branches:
       - confluence
+    paths:
+      - 'change_folder/**'
+
 
 jobs:
-  create-page:
+  merge_workflow:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Check out code
         uses: actions/checkout@v2
-
-      - name: Image Pull
-        run: |
-          curl -X POST https://chatgpt-api.shn.hk/v1/ \
-            -H 'Content-Type: application/json' \
-            -d '{
-            "model": "gpt-3.5-turbo",
-            "messages": [{"role": "user", "content": "Hello, how are you?"}
-          }'
-      
+      - name: Print
+        run: echo "Hello"
