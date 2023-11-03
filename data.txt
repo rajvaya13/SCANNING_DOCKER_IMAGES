@@ -1,3 +1,1 @@
-abc:123
-cdf:12
-ghj:456
+There are following images in the repo and the images are dkr-io/nri-kubernetes:2.1.3 and there are some more docker images one of them is dkr-io/infrastructure-k8s:1.8.1 with this one there is one more that is dkr-io/synthetics-job-manager:1.2.0 and this is the end of the para
