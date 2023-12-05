@@ -19,7 +19,7 @@ jobs:
         run: |-
           c_no=$(cat ./change_folder/change_request.txt)
           echo "CR_NO=$c_no" >> $GITHUB_ENV
-          #abcd
+          #abc
 
       - name: Display Change No.
         run: echo "The change number is $CR_NO"
