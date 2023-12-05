@@ -3,9 +3,7 @@ name: Create Confluence Page
 on:
   push:
     branches:
-      - confluence
-    paths:
-      - 'change_folder/**'
+      - test
 
 
 jobs:
